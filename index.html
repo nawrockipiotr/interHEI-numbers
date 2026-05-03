@@ -208,33 +208,6 @@
     to { opacity: 1; }
   }
 
-  .replay {
-    position: absolute;
-    top: 12px;
-    left: 14px;
-    height: 30px;
-    padding: 0 13px;
-    border-radius: 16px;
-    border: 1px solid rgba(23,32,51,0.09);
-    background: rgba(255,255,255,0.9);
-    color: var(--muted);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    z-index: 10;
-    font-family: "Titillium Web", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  }
-
-  .replay:hover {
-    color: var(--ink);
-    border-color: rgba(232,115,42,0.4);
-  }
-
   @media (max-width: 720px) {
     .constellation {
       width: 100vw;
@@ -270,14 +243,6 @@
 
 <body>
 <div class="wrap" id="wrap">
-  <button class="replay" onclick="replay()">
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="1 4 1 10 7 10"></polyline>
-      <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-    </svg>
-    Replay
-  </button>
-
   <div class="constellation">
     <svg viewBox="0 0 920 560" preserveAspectRatio="none" aria-hidden="true">
       <line class="line" x1="460" y1="280" x2="230" y2="123"></line>
@@ -358,14 +323,6 @@ function runCounters() {
     const duration = i === 0 ? 1900 : 1150;
     animateNumber(el, target, delay, duration);
   });
-}
-
-function replay() {
-  const wrap = document.getElementById("wrap");
-  const old = document.querySelector(".constellation");
-  const clone = old.cloneNode(true);
-  old.replaceWith(clone);
-  runCounters();
 }
 
 runCounters();
