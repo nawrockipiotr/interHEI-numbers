@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>InterHEI — Impact Constellation</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --inter: #E8732A;
+    --inter-dark: #c95f1f;
+    --blue: #2B5EA7;
+    --green: #1D9E75;
+    --violet: #8A5CF6;
+    --yellow: #F6B73C;
+
+    --ink: #172033;
+    --muted: #667085;
+    --line: rgba(232, 115, 42, 0.18);
+    --soft: rgba(232, 115, 42, 0.08);
+    --card: rgba(255,255,255,0.92);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    background: transparent;
+    overflow: hidden;
+    font-family: "Titillium Web", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color: var(--ink);
+  }
+
+  .wrap {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(circle at 50% 48%, rgba(232,115,42,0.12), transparent 34%),
+      radial-gradient(circle at 78% 20%, rgba(43,94,167,0.08), transparent 28%),
+      radial-gradient(circle at 18% 82%, rgba(29,158,117,0.08), transparent 30%);
+  }
+
+  .constellation {
+    position: relative;
+    width: min(920px, 96vw);
+    height: min(560px, 92vh);
+  }
+
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .line {
+    stroke: rgba(23,32,51,0.16);
+    stroke-width: 1.4;
+    stroke-dasharray: 5 8;
+    animation: dash 5s linear infinite;
+  }
+
+  @keyframes dash {
+    to { stroke-dashoffset: -80; }
+  }
+
+  .node {
+    position: absolute;
+    transform: translate(-50%, -50%) scale(0.7);
+    opacity: 0;
+    border-radius: 999px;
+    background: var(--card);
+    border: 1px solid rgba(23,32,51,0.08);
+    box-shadow: 0 14px 40px rgba(23,32,51,0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: appear 650ms cubic-bezier(.2,.8,.2,1) forwards, float 6s ease-in-out infinite;
+  }
+
+  .node::before {
+    content: "";
+    position: absolute;
+    inset: -7px;
+    border-radius: inherit;
+    border: 1px solid currentColor;
+    opacity: 0.18;
+  }
+
+  .node::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: 0.055;
+    pointer-events: none;
+  }
+
+  @keyframes appear {
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { margin-top: 0; }
+    50% { margin-top: -8px; }
+  }
+
+  .main {
+    left: 50%;
+    top: 50%;
+    width: 260px;
+    height: 260px;
+    color: var(--inter);
+    animation-delay: 120ms, 900ms;
+  }
+
+  .node:not(.main) {
+    width: 178px;
+    height: 178px;
+  }
+
+  .n1 { left: 25%; top: 22%; color: var(--blue); animation-delay: 650ms, 1450ms; }
+  .n2 { left: 75%; top: 23%; color: var(--green); animation-delay: 900ms, 1700ms; }
+  .n3 { left: 82%; top: 68%; color: var(--violet); animation-delay: 1150ms, 1950ms; }
+  .n4 { left: 22%; top: 72%; color: var(--yellow); animation-delay: 1400ms, 2200ms; }
+  .n5 { left: 50%; top: 12%; color: var(--inter-dark); animation-delay: 1650ms, 2450ms; }
+
+  .num {
+    position: relative;
+    z-index: 2;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: currentColor;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .main .num {
+    font-size: 78px;
+  }
+
+  .label {
+    position: relative;
+    z-index: 2;
+    margin-top: 8px;
+    max-width: 150px;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.13;
+    color: var(--ink);
+  }
+
+  .main .label {
+    font-size: 20px;
+    max-width: 190px;
+  }
+
+  .hint {
+    position: relative;
+    z-index: 2;
+    margin-top: 5px;
+    max-width: 155px;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--muted);
+  }
+
+  .title {
+    position: absolute;
+    left: 50%;
+    bottom: 14px;
+    transform: translateX(-50%);
+    text-align: center;
+    width: min(720px, 92vw);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.35;
+    opacity: 0;
+    animation: fadeIn 600ms ease forwards 2100ms;
+  }
+
+  .title strong {
+    color: var(--ink);
+    font-weight: 800;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .replay {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    height: 30px;
+    padding: 0 13px;
+    border-radius: 16px;
+    border: 1px solid rgba(23,32,51,0.09);
+    background: rgba(255,255,255,0.9);
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    z-index: 10;
+    font-family: "Titillium Web", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  }
+
+  .replay:hover {
+    color: var(--ink);
+    border-color: rgba(232,115,42,0.4);
+  }
+
+  @media (max-width: 720px) {
+    .constellation {
+      width: 100vw;
+      height: 100vh;
+      min-height: 540px;
+    }
+
+    .main {
+      width: 215px;
+      height: 215px;
+    }
+
+    .main .num { font-size: 62px; }
+    .main .label { font-size: 18px; }
+
+    .node:not(.main) {
+      width: 142px;
+      height: 142px;
+    }
+
+    .num { font-size: 36px; }
+    .label { font-size: 13px; max-width: 120px; }
+    .hint { font-size: 10.5px; max-width: 120px; }
+
+    .n1 { left: 23%; top: 23%; }
+    .n2 { left: 77%; top: 24%; }
+    .n3 { left: 78%; top: 72%; }
+    .n4 { left: 22%; top: 73%; }
+    .n5 { left: 50%; top: 10%; }
+  }
+</style>
+</head>
+
+<body>
+<div class="wrap" id="wrap">
+  <button class="replay" onclick="replay()">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="1 4 1 10 7 10"></polyline>
+      <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+    </svg>
+    Replay
+  </button>
+
+  <div class="constellation">
+    <svg viewBox="0 0 920 560" preserveAspectRatio="none" aria-hidden="true">
+      <line class="line" x1="460" y1="280" x2="230" y2="123"></line>
+      <line class="line" x1="460" y1="280" x2="690" y2="129"></line>
+      <line class="line" x1="460" y1="280" x2="754" y2="381"></line>
+      <line class="line" x1="460" y1="280" x2="202" y2="403"></line>
+      <line class="line" x1="460" y1="280" x2="460" y2="67"></line>
+    </svg>
+
+    <div class="node main">
+      <div class="num" data-target="851">0</div>
+      <div class="label">Students trained</div>
+      <div class="hint">final InterHEI programme outcome</div>
+    </div>
+
+    <div class="node n1">
+      <div class="num" data-target="16">0</div>
+      <div class="label">Start-ups supported</div>
+      <div class="hint">entrepreneurial support</div>
+    </div>
+
+    <div class="node n2">
+      <div class="num" data-target="14">0</div>
+      <div class="label">Partner organisations</div>
+      <div class="hint">11 full + 3 associated</div>
+    </div>
+
+    <div class="node n3">
+      <div class="num" data-target="8">0</div>
+      <div class="label">Countries</div>
+      <div class="hint">partner HEI ecosystem</div>
+    </div>
+
+    <div class="node n4">
+      <div class="num" data-target="4">0</div>
+      <div class="label">Key initiatives</div>
+      <div class="hint">support mechanisms</div>
+    </div>
+
+    <div class="node n5">
+      <div class="num" data-target="3">0</div>
+      <div class="label">Years</div>
+      <div class="hint">2022–2024</div>
+    </div>
+
+    <div class="title">
+      <strong>InterHEI impact in numbers.</strong>
+      Final programme outcomes across training, institutional cooperation and entrepreneurial support.
+    </div>
+  </div>
+</div>
+
+<script>
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function animateNumber(el, target, delay, duration) {
+  el.textContent = "0";
+  setTimeout(() => {
+    const start = performance.now();
+
+    function frame(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const value = Math.round(easeOutCubic(t) * target);
+      el.textContent = value.toLocaleString("en-US");
+
+      if (t < 1) requestAnimationFrame(frame);
+      else el.textContent = target.toLocaleString("en-US");
+    }
+
+    requestAnimationFrame(frame);
+  }, delay);
+}
+
+function runCounters() {
+  const nums = document.querySelectorAll(".num");
+  nums.forEach((el, i) => {
+    const target = parseInt(el.dataset.target, 10);
+    const delay = i === 0 ? 350 : 800 + i * 230;
+    const duration = i === 0 ? 1900 : 1150;
+    animateNumber(el, target, delay, duration);
+  });
+}
+
+function replay() {
+  const wrap = document.getElementById("wrap");
+  const old = document.querySelector(".constellation");
+  const clone = old.cloneNode(true);
+  old.replaceWith(clone);
+  runCounters();
+}
+
+runCounters();
+</script>
+</body>
+</html>
